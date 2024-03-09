@@ -1,4 +1,3 @@
-
 //#include "../conteinters/dlist.hpp"
 //#include "../conteinters/list.hpp"
 //#include "../conteinters/p_queue.hpp"
@@ -39,6 +38,7 @@ void przerzuc (int n, vector <Dane> &pierwszy, vector <Dane> &drugi)
         drugi[i] = pierwszy[i];
     }
 }
+
 void print (int n, vector <Dane> dane)
 {
     for (int i=0; i<n; i++){
@@ -47,7 +47,18 @@ void print (int n, vector <Dane> dane)
     cout << endl;
 }
 
-void sorting (int n, vector <Dane> &dane)
+void sortR (int n, vector <Dane> &dane)
+{
+    for (int i=0; i<n; i++){
+        for (int j=1; j<n-i; j++){
+            if (dane[j-1].r > dane[j].r){
+                swap(dane[j-1], dane[j]);
+            }
+        }
+    }
+}
+
+void sortQueue (int n, vector <Dane> &dane)
 {
     int timemin=9999999, timeC;
     vector <Dane> obliczenia(n);
@@ -69,6 +80,42 @@ void sorting (int n, vector <Dane> &dane)
         przerzuc(i+1, wynik, obliczenia);
     }
     przerzuc(n, wynik, dane);
+}
+
+void sortWstaw (int n, vector <Dane> &dane)
+{
+    int timemin = timeCmax(n, dane), timeC, udalosie=0;
+    vector <Dane> obliczenia(n);
+    vector <Dane> wynik(n);
+    przerzuc(n, dane, obliczenia);
+    for (int i=0; i<n; i++){
+        for (int j=0; j<n; j++){
+            if (i != j){
+                swap(obliczenia[i], obliczenia[j]);
+                timeC = timeCmax (n, obliczenia);
+                if (timeC < timemin){
+                    timemin = timeC;
+                    przerzuc(n, obliczenia, wynik);
+                    udalosie=1;
+                    i=0; j=0;
+                } else {
+                    swap(obliczenia[i], obliczenia[j]);
+                }
+            }
+        }
+    }
+    if(udalosie == 1){
+        przerzuc(n, wynik, dane);
+    }
+}
+
+void sorting (int n, vector <Dane> &dane)
+{
+    sortR(n, dane);
+    for (int i=0; i<n; i++){
+        sortQueue(n, dane);
+    }
+    sortWstaw(n, dane);
 }
 
 int main()
