@@ -33,31 +33,18 @@ int timeCmax (int n, vector <Dane> dane)
     return Cmax;
 }
 
-/*void sorting (int n, vector <Dane> &dane)
-{
-    for (int i=0; i<n; i++){
-        for (int j=1; j<n-i; j++){
-            if (dane[j-1].r > dane[j].r){
-                swap(dane[j-1], dane[j]);
-            }
-        }
-    }
-
-    /*for (int i=0; i<n; i++){
-        for (int j=n-1; j>i; j--){
-            if (dane[j-1].q < dane[j].q){
-                swap(dane[j-1], dane[j]);
-            }
-        }
-    }
-}*/
-
-void przerzuc (int n, vector <Dane> pierwszy, vector <Dane> drugi)
+void przerzuc (int n, vector <Dane> &pierwszy, vector <Dane> &drugi)
 {
     for (int i=0; i<n; i++){
         drugi[i] = pierwszy[i];
-        cout << pierwszy[i].id << ' ';
     }
+}
+void print (int n, vector <Dane> dane)
+{
+    for (int i=0; i<n; i++){
+        cout << dane[i].id << ' ' << dane[i].r << ' ' << dane[i].p << ' ' << dane[i].q <<endl;
+    }
+    cout << endl;
 }
 
 void sorting (int n, vector <Dane> &dane)
@@ -70,10 +57,6 @@ void sorting (int n, vector <Dane> &dane)
         obliczenia[i] = dane[i];
         for (int j=i; j>-1; j--){
             timeC = timeCmax(i+1, obliczenia);
-           /* for (int k=0; k<i+1; k++){
-            cout << obliczenia[i].id << ' ';
-            }
-            cout << endl;*/
             if(timeC<timemin){
                 timemin = timeC;
                 przerzuc(i+1, obliczenia, wynik);
