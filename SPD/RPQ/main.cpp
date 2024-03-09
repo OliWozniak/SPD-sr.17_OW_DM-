@@ -52,19 +52,40 @@ int timeCmax (int n, vector <Dane> dane)
     }
 }*/
 
-void sorting (int n, vector <Dane> &dane){
+void przerzuc (int n, vector <Dane> pierwszy, vector <Dane> drugi)
+{
+    for (int i=0; i<n; i++){
+        drugi[i] = pierwszy[i];
+        cout << pierwszy[i].id << ' ';
+    }
+}
+
+void sorting (int n, vector <Dane> &dane)
+{
+    int timemin=9999999, timeC;
     vector <Dane> obliczenia(n);
     vector <Dane> wynik(n);
+    obliczenia[0] = dane[0];
     for (int i=1; i<n; i++){
-        for (int j=0; j<i+1; j++){
-            obliczenia.insert
-            if (timeCmax(i+1, obliczenia))
-            {
-                /* code */
+        obliczenia[i] = dane[i];
+        for (int j=i; j>-1; j--){
+            timeC = timeCmax(i+1, obliczenia);
+           /* for (int k=0; k<i+1; k++){
+            cout << obliczenia[i].id << ' ';
             }
-            
+            cout << endl;*/
+            if(timeC<timemin){
+                timemin = timeC;
+                przerzuc(i+1, obliczenia, wynik);
+            }
+            if(j>0){
+                swap(obliczenia[j], obliczenia[j-1]);
+            }
         }
+        timemin=9999999;
+        przerzuc(i+1, wynik, obliczenia);
     }
+    przerzuc(n, wynik, dane);
 }
 
 int main()
@@ -77,20 +98,18 @@ int main()
         cin >> dane[i].r >> dane[i].p >> dane[i].q;
     }
 
-    
     clock_t start = clock();
-    
     sorting(n, dane);
-    cout << endl;
     clock_t end = clock();
     double elapsed = double(end - start)/CLOCKS_PER_SEC;
-    std::cout << "Wgrano dane do kolejki.\t Upłynął czas: " << elapsed << " sekund"  <<std::endl;
+    cout << endl << "Sortowanie danych: " << elapsed << " sekund"  << endl << endl;
+
     for (int i=0; i<n; i++){
         cout << dane[i].id << ' ';
     }
     cout << endl << endl;
     cout << timeCmax(n, dane) << endl;
 
-    
+
     return 0;
 }
