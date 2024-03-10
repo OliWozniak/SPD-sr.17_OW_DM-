@@ -120,6 +120,7 @@ void sorting (int n, vector <Dane> &dane)
 
 int main()
 {
+    cout << "Podaj dane do przetworzenia\n";
     int n;
     cin >> n;
     vector <Dane> dane(n);
