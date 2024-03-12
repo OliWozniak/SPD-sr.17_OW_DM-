@@ -111,16 +111,21 @@ void sortWstaw (int n, vector <Dane> &dane)
 
 void sorting (int n, vector <Dane> &dane)
 {
+    vector <Dane> wynik(n);
+    sortWstaw(n, dane);
     sortR(n, dane);
+    przerzuc(n, dane, wynik);
     for (int i=0; i<n; i++){
         sortQueue(n, dane);
     }
     sortWstaw(n, dane);
+    if (timeCmax(n, wynik) < timeCmax(n, dane)){
+        przerzuc(n, wynik, dane);
+    }
 }
 
 int main()
 {
-    cout << "Podaj dane do przetworzenia\n";
     int n;
     cin >> n;
     vector <Dane> dane(n);
