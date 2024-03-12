@@ -1,5 +1,5 @@
 Grupa: Oliwier Woźniak, Dzmitry Mandrukevich
 Temin oddania: 13.03.2024
 Ćwiczenie 1, rpq
-Suma długości uszeregowań: 13862 + 20919 + 31343 + 33878 = 100002
-Sugerowana ocena: 5.0
+Suma długości uszeregowań: 13862 + 20917 + 31343 + 33878 = 10000
+Sugerowana ocena: 5.5
