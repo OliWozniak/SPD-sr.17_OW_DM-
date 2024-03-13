@@ -47,6 +47,7 @@ void print (int n, vector <Dane> dane)
     cout << endl;
 }
 
+//Sortowanie elemnentów po wartościach r (sortowanie bąbelkowe)
 void sortR (int n, vector <Dane> &dane)
 {
     for (int i=0; i<n; i++){
@@ -58,6 +59,9 @@ void sortR (int n, vector <Dane> &dane)
     }
 }
 
+
+// Sortowanie konstrukcyjne, kolejne elementy są wrzucane na dostępne miejsca.
+// najbardziej optymalna sekwencja zostaje zapisana
 void sortQueue (int n, vector <Dane> &dane)
 {
     int timemin=9999999, timeC;
@@ -81,6 +85,9 @@ void sortQueue (int n, vector <Dane> &dane)
     }
     przerzuc(n, wynik, dane);
 }
+
+
+// Sortowanie przez tasowanie danych i testowanie wszystkich konfiguracji, duża złożoność obliczeniowa, duża ilość kombinacji
 
 void sortWstaw (int n, vector <Dane> &dane)
 {
@@ -109,6 +116,7 @@ void sortWstaw (int n, vector <Dane> &dane)
     }
 }
 
+// Złożenie funkcji poszukujących minimum
 void sorting (int n, vector <Dane> &dane)
 {
     vector <Dane> wynik(n);
