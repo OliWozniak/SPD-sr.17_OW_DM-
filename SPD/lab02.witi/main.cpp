@@ -12,8 +12,19 @@ class Dane{
     int termin;
 };
 
-int sumaWiti(vector<Dane> dane){
 
+int sumaWiti(int n, vector<Dane> dane){
+    int czas=0, suma_kar=0;
+    
+    for (int i = 0; i < n; ++i)
+    {
+        czas+=dane[i].czas_zadania;
+        if (dane[i].termin<czas)
+        {
+            suma_kar+=(czas - dane[i].termin)*dane[i].kara;
+        }
+    }
+    return suma_kar;
 }
 
 int main(){
@@ -26,7 +37,7 @@ int main(){
     }
 
     clock_t start = clock();
-    //sorting(n, dane);
+    cout << "Kara:\t" << sumaWiti(n,dane)<< endl;
     clock_t end = clock();
     double elapsed = double(end - start)/CLOCKS_PER_SEC;
     cout << endl << "Sortowanie danych: " << elapsed << " sekund"  << endl << endl;
