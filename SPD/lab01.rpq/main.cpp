@@ -121,8 +121,8 @@ void sorting (int n, vector <Dane> &dane)
 {
     vector <Dane> wynik(n);
     sortWstaw(n, dane);
-    sortR(n, dane);
     przerzuc(n, dane, wynik);
+    sortR(n, dane);
     for (int i=0; i<n; i++){
         sortQueue(n, dane);
     }
