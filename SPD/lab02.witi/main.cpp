@@ -25,46 +25,29 @@ int sumaWiti (int n, vector<Dane> dane){
     return suma_kar;
 }
 
-/*void sorting (int n, vector <Dane> &dane)
+void sortTermin (int n, vector <Dane> &dane)
 {
-    int czas=0;
     for (int i=0; i<n; i++){
-        czas += dane[i].czas_zadania;
-    }
-    int kara, minKara=9999999, ind;
-    for (int i=0; i<n-1; i++){
-        for (int j=0; j<n-i; j++){
-            kara = (czas-dane[j].termin)*dane[j].kara;
-            cout << kara << endl;
-            if (kara < minKara){
-                minKara = kara;
-                ind = j;
+        for (int j=1; j<n-i; j++){
+            if (dane[j-1].termin > dane[j].termin){
+                swap(dane[j-1], dane[j]);
             }
         }
-        cout << endl << ind << ' ' << n-i-1 << endl;
-        //cout << dane[ind].id << ' ' << dane[n-i-1].id << endl;
-        if (ind<n-i-1){
-            swap(dane[ind], dane[n-i-1]);
-            cout << "AAAAAAAAAAAA" <<endl;
-        }
-        czas -= dane[n-i-1].czas_zadania;
     }
-}*/
+}
 
 void sorting (int n, vector <Dane> &dane)
 {
     int timemin = sumaWiti(n,dane), timeW;
     for (int i=0; i<n; i++){
-        for (int j=0; j<n; j++){
-            if (i != j){
+        for (int j=i+1; j<n; j++){
+            swap(dane[i], dane[j]);
+            timeW = sumaWiti(n,dane);
+            if (timeW < timemin){
+                timemin = timeW;
+                i=0; j=0;
+            } else {
                 swap(dane[i], dane[j]);
-                timeW = sumaWiti(n,dane);
-                if (timeW < timemin){
-                    timemin = timeW;
-                    i=0; j=0;
-                } else {
-                    swap(dane[i], dane[j]);
-                }
             }
         }
     }
@@ -72,33 +55,31 @@ void sorting (int n, vector <Dane> &dane)
 
 int main(){
     for (int j=0; j<11; j++){
-    string plik = "dane", roz = ".txt";
-    char p = '1', d = j+48;
-    if(j==10){
-        p='2'; d='0';
-    }
-    ifstream dane_input(plik + p + d + roz);
-    int n;
-    dane_input >> n;
-    vector <Dane> dane(n);
-    for (int i=0; i<n; i++){
-        dane[i].id = i+1;
-        dane_input >> dane[i].czas_zadania >> dane[i].kara >> dane[i].termin;
-    }
+        string plik = "dane", roz = ".txt";
+        char p = '1', d = j+48;
+        if(j==10){
+            p='2'; d='0';
+        }
+        ifstream dane_input(plik + p + d + roz);
+        int n;
+        dane_input >> n;
+        vector <Dane> dane(n);
+        for (int i=0; i<n; i++){
+            dane[i].id = i+1;
+            dane_input >> dane[i].czas_zadania >> dane[i].kara >> dane[i].termin;
+        }
 
-    clock_t start = clock();
-    for (int i=0; i<2; i++){
+        clock_t start = clock();
+        sortTermin(n, dane);
         sorting(n, dane);
-    }
-    //sorting(n, dane);
-    clock_t end = clock();
-    double elapsed = double(end - start)/CLOCKS_PER_SEC;
+        clock_t end = clock();
+        double elapsed = double(end - start)/CLOCKS_PER_SEC;
 
-    cout << "Kara:\t" << sumaWiti(n,dane)<< endl;
-    for (int i=0; i<n; i++){
-        cout << dane[i].id << ' ';
-    }
-    cout << endl << "Sortowanie danych: " << elapsed << " sekund"  << endl << endl;
+        cout << "Kara:\t" << sumaWiti(n,dane)<< endl;
+        for (int i=0; i<n; i++){
+            cout << dane[i].id << ' ';
+        }
+        cout << endl << "Sortowanie danych: " << elapsed << " sekund"  << endl << endl;
     }
     return 0;
 }
