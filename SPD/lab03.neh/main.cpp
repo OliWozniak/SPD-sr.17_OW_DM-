@@ -74,21 +74,16 @@ void sortQueue (int n, int m, vector <Dane> &dane)
     int mintime, timeC;
     for (int i=1; i<n; i++){
         obliczenia.insert(obliczenia.begin(), dane[i]);
-        print(i+1, obliczenia);
         przerzuc(i+1, obliczenia, wynik);
         mintime = timeCmax(i+1, m, obliczenia);
         for (int j=0; j<i; j++){
             swap (obliczenia[j], obliczenia[j+1]);
-            print(i+1, obliczenia);
-            timeC = timeCmax(i+1, m, dane);
-            cout << timeC << ' ' << mintime << endl;
-            if (timeC <= mintime){
+            timeC = timeCmax(i+1, m, obliczenia);
+            if (timeC < mintime){
                 mintime = timeC;
                 przerzuc(i+1, obliczenia, wynik);
             }
         }
-        print(i+1, wynik);
-        cout <<endl;
         przerzuc(i+1, wynik, obliczenia);
     }
     przerzuc(n, wynik, dane);
@@ -99,7 +94,7 @@ int main()
     string plik, nazwa = "dane", roz = ".txt";
     char p = '0', d = '0', t; //pirwsza, druga, trzecia liczby
     int n, m, help;
-    for (int j=0; j<1; j++){
+    for (int j=0; j<14; j++){
         t = (j%10)+48;
         d = ((j/10)%10)+48;
         p = ((j/100)%10)+48;
@@ -124,10 +119,10 @@ int main()
         double elapsed = double(end - start)/CLOCKS_PER_SEC;
 
         cout << plik << "  " << timeCmax(n, m, dane) << "  " << elapsed << endl;
-        for (int i=0; i<n; i++){
+        /*for (int i=0; i<n; i++){
             cout << dane[i].id << ' ';
         }
-        cout << endl;
+        cout << endl;*/
         //cout << endl << "Sortowanie danych: " << elapsed << " sekund"  << endl;
     }
 
