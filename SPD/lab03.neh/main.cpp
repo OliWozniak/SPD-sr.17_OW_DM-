@@ -1,7 +1,7 @@
 #include <iostream>
-#include <vector>
+//#include <vector>
 #include <time.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 #include <fstream>
 #include <iomanip>
 using namespace std;
@@ -9,37 +9,18 @@ using namespace std;
 class Dane{
   public:
     int id;
-    vector <int> stream;
+    int stream[20];
     int sumtime;
 };
 
-void pokaz (vector<vector<int>>Cmax)
-{
-    for (int i=0; i<3; i++){
-        for (int j=0; j<4; j++){
-            cout << setw(2) << Cmax[j][i] << ' ';
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
-
-void print (int n, vector <Dane> dane)
+void przerzuc (int first, int n, Dane *pierwszy, Dane *drugi)
 {
     for (int i=0; i<n; i++){
-        cout << dane[i].id << ' ';
-    }
-    cout << endl;
-}
-
-void przerzuc (int n, vector <Dane> &pierwszy, vector <Dane> &drugi)
-{
-    for (int i=0; i<n; i++){
-        drugi[i] = pierwszy[i];
+        drugi[i+first] = pierwszy[i];
     }
 }
 
-void SumTimeFoTask (int n, int m, vector <Dane> &dane)
+void SumTimeFoTask (int n, int m, Dane dane[])
 {
     int sum = 0;
     for (int i=0; i<n; i++){
@@ -51,7 +32,7 @@ void SumTimeFoTask (int n, int m, vector <Dane> &dane)
     }
 }
 
-void sortTime (int n, vector <Dane> &dane)
+void sortTime (int n, Dane *dane)
 {
     for (int i=0; i<n; i++){
         for (int j=n-1; j>i; j--){
@@ -62,7 +43,7 @@ void sortTime (int n, vector <Dane> &dane)
     }
 }
 
-int timeCmax (int n, int m, vector <Dane> dane)
+int timeCmax (int n, int m, Dane dane[])
 {
     int Cmax[m];
     Cmax[0] = dane[0].stream[0];
@@ -78,16 +59,36 @@ int timeCmax (int n, int m, vector <Dane> dane)
     return Cmax[m-1];
 }
 
-void timeCmaxLeftToRight (int first, int last, int m, vector <Dane> dane, vector <vector <int> > &Cmax)
+void sortQueue (int n, int m, Dane *dane)
 {
-    if (first == 0){
-        Cmax[0][0] = dane[0].stream[0];
-        for (int i=1; i<m; i++){
-            Cmax[0][i] = Cmax[0][i-1] + dane[0].stream[i];
+    Dane obliczenia[n];
+    Dane wynik[n];
+    wynik[0] = dane[0];
+    int mintime, timeC;
+    for (int i=1; i<n; i++){
+        obliczenia[0] = dane[i];
+        przerzuc(1, i, wynik, obliczenia);
+        przerzuc(0, i+1, obliczenia, wynik);
+        mintime = timeCmax(i+1, m, obliczenia);
+        for (int j=0; j<i; j++){
+            swap (obliczenia[j], obliczenia[j+1]);
+            timeC = timeCmax(i+1, m, obliczenia);
+            if (timeC < mintime){
+                mintime = timeC;
+                przerzuc(0, i+1, obliczenia, wynik);
+            }
         }
-        ++first;
     }
-    for (int i=first; i<last+1; i++){
+    przerzuc(0, n, wynik, dane);
+}
+
+void timeCmaxLeftToRight (int last, int m, Dane dane[], int **Cmax)
+{
+    Cmax[0][0] = dane[0].stream[0];
+    for (int i=1; i<m; i++){
+        Cmax[0][i] = Cmax[0][i-1] + dane[0].stream[i];
+    }
+    for (int i=1; i<last; i++){
         Cmax[i][0] = Cmax[i-1][0] + dane[i].stream[0];
         for (int j=1; j<m; j++){
             Cmax[i][j] = max(Cmax[i][j-1], Cmax[i-1][j]) + dane[i].stream[j];
@@ -95,16 +96,14 @@ void timeCmaxLeftToRight (int first, int last, int m, vector <Dane> dane, vector
     }
 }
 
-void timeCmaxRightToLeft (int first, int last, int m, vector <Dane> dane, vector <vector <int> > &Cmax)
+void timeCmaxRightToLeft (int last, int m, Dane dane[], int **Cmax)
 {
-    if(first == dane.size()-1){
-        Cmax[first][m-1] = dane[first].stream[m-1];
-        for (int i=m-2; i>-1; i--){
-            Cmax[first][i] = Cmax[first][i+1] + dane[first].stream[i];
-        }
-        first--;
+    --last;
+    Cmax[last][m-1] = dane[last].stream[m-1];
+    for (int i=m-2; i>-1; i--){
+        Cmax[last][i] = Cmax[last][i+1] + dane[last].stream[i];
     }
-    for (int i=first; i>last-1; i--){
+    for (int i=last-1; i>-1; i--){
         Cmax[i][m-1] = Cmax[i+1][m-1] + dane[i].stream[m-1];
         for (int j=m-2; j>-1; j--){
             Cmax[i][j] = max(Cmax[i][j+1], Cmax[i+1][j]) + dane[i].stream[j];
@@ -112,7 +111,7 @@ void timeCmaxRightToLeft (int first, int last, int m, vector <Dane> dane, vector
     }
 }
 
-int qTimeCmax (int ind, int m, int ile, vector<int> dane, vector<vector<int>> Cmltr, vector<vector<int>> Cmrtl)
+int qTimeCmax (int ind, int m, int ile, int dane[], int *Cmltr[], int *Cmrtl[])
 {
     int Cmax[m], Cm;
     if (ind == 0){
@@ -141,40 +140,19 @@ int qTimeCmax (int ind, int m, int ile, vector<int> dane, vector<vector<int>> Cm
     return Cm;
 }
 
-void sortQueue (int n, int m, vector <Dane> &dane)
+void qsortQueue (int n, int m, Dane *dane, int **CmLeftToRight, int **CmRightToLeft)
 {
-    vector <Dane> obliczenia(1);
-    obliczenia[0] = dane[0];
-    int mintime, timeC, ind;
-    for (int i=1; i<n; i++){
-        obliczenia.insert(obliczenia.begin(), dane[i]);
-        mintime = timeCmax(i+1, m, obliczenia);
-        ind = 0;
-        for (int j=0; j<i; j++){
-            swap (obliczenia[j], obliczenia[j+1]);
-            timeC = timeCmax(i+1, m, obliczenia);
-            if (timeC < mintime){
-                mintime = timeC;
-                ind = j + 1;
-            }
-        }
-        obliczenia.pop_back();
-        obliczenia.insert(obliczenia.begin()+ind, dane[i]);
-    }
-    przerzuc(n, obliczenia, dane);
-}
-
-void qsortQueue (int n, int m, vector <Dane> &dane, vector<vector<int>> CmLeftToRight, vector<vector<int>> CmRightToLeft)
-{
-    vector <Dane> obliczenia(1);
-    obliczenia[0] = dane[0];
+    Dane obliczenia[n];
+    Dane wynik[n];
+    wynik[0] = dane[0];
     int mintime, timeC, ind=0;
     for (int i=1; i<n; i++){
-        timeCmaxLeftToRight(0, i-1, m, obliczenia, CmLeftToRight);
-        timeCmaxRightToLeft(i-1, 0, m, obliczenia, CmRightToLeft);
-
-        obliczenia.insert(obliczenia.begin(), dane[i]);
-        ind = 0;
+        timeCmaxLeftToRight(i, m, wynik, CmLeftToRight);
+        timeCmaxRightToLeft(i, m, wynik, CmRightToLeft);
+        ind=0;
+        obliczenia[0] = dane[i];
+        przerzuc(1, i, wynik, obliczenia);
+        przerzuc(0, i+1, obliczenia, wynik);
         mintime = qTimeCmax (ind, m, i, dane[i].stream, CmLeftToRight, CmRightToLeft);
         for (int j=0; j<i; j++){
             swap (obliczenia[j], obliczenia[j+1]);
@@ -182,12 +160,11 @@ void qsortQueue (int n, int m, vector <Dane> &dane, vector<vector<int>> CmLeftTo
             if (timeC < mintime){
                 mintime = timeC;
                 ind = j + 1;
+                przerzuc(0, i+1, obliczenia, wynik);
             }
         }
-        obliczenia.pop_back();
-        obliczenia.insert(obliczenia.begin()+ind, dane[i]);
     }
-    przerzuc(n, obliczenia, dane);
+    przerzuc(0, n, wynik, dane);
 }
 
 int main()
@@ -317,10 +294,10 @@ int main()
 
     string plik, nazwa = "dane", roz = ".txt";
     char p = '0', d = '0', t; //pirwsza, druga, trzecia liczby
-    int n, m, help;
+    int n, m;
     bool tf;
     double totaltime = 0;
-    for (int j=0; j<101; j++){
+    for (int j=0; j<121; j++){
         t = (j%10)+48;
         d = ((j/10)%10)+48;
         p = ((j/100)%10)+48;
@@ -328,16 +305,24 @@ int main()
         ifstream dane_input(plik);
 
         dane_input >> n >> m;
-        vector <Dane> dane(n);
-        vector <vector <int> > CmLeftToRight(n, vector <int> (m));
-        vector <vector <int> > CmRightToLeft(n, vector <int> (m));
+        Dane *dane = new Dane[n];
+        int **CmLeftToRight = new int*[n];
+        int **CmRightToLeft = new int*[n];
+        for (int i=0; i<n; i++){
+            CmLeftToRight[i] = new int[m];
+            CmRightToLeft[i] = new int[m];
+            for (int j=0; j<m; j++){
+                CmLeftToRight[i][j] = -1;
+                CmRightToLeft[i][j] = -1;
+            }
+        }
         for (int i=0; i<n; i++){
             dane[i].id = i+1;
             for (int j=0; j<m; j++){
-                dane_input >> help;
-                dane[i].stream.push_back(help);
+                dane_input >> dane[i].stream[j];
             }
         }
+
         SumTimeFoTask(n, m, dane);
         sortTime(n, dane);
         clock_t start = clock();
@@ -356,11 +341,6 @@ int main()
         cout << plik << "  " << setw(5) << timeCmax(n, m, dane) << "  " << setw(6)
              << fixed << setprecision(3) << elapsed << "   " << tf << endl;
              totaltime += elapsed;
-        /*for (int i=0; i<n; i++){
-            cout << dane[i].id << ' ';
-        }*/
-        //cout << endl;
-        //cout << endl << "Sortowanie danych: " << elapsed << " sekund"  << endl;
     }
     cout << "Total Time: " << totaltime << endl;
 
