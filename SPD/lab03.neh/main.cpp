@@ -1,7 +1,5 @@
 #include <iostream>
-//#include <vector>
 #include <time.h>
-//#include <stdlib.h>
 #include <fstream>
 #include <iomanip>
 using namespace std;
