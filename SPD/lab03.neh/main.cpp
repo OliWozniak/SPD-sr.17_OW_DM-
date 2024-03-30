@@ -18,6 +18,7 @@ void przerzuc (int first, int n, Dane *pierwszy, Dane *drugi)
     }
 }
 
+//Obliczanie czasu dla jednego zadania
 void SumTimeFoTask (int n, int m, Dane dane[])
 {
     int sum = 0;
@@ -30,6 +31,7 @@ void SumTimeFoTask (int n, int m, Dane dane[])
     }
 }
 
+// Sortowanie bombelkowe po czasie
 void sortTime (int n, Dane *dane)
 {
     for (int i=0; i<n; i++){
@@ -41,13 +43,16 @@ void sortTime (int n, Dane *dane)
     }
 }
 
+// Obliczanie czasu wykonywania wszystkich zadań w podanej kolejności
 int timeCmax (int n, int m, Dane dane[])
 {
     int Cmax[m];
     Cmax[0] = dane[0].stream[0];
+    // Obliczanie dla pierwszego zadania
     for (int i=1; i<m; i++){
         Cmax[i] = Cmax[i-1] + dane[0].stream[i];
     }
+    // Obliczanie dla wszystkich kolejnych
     for (int i=1; i<n; i++){
         Cmax[0] += dane[i].stream[0];
         for (int j=1; j<m; j++){
@@ -57,6 +62,7 @@ int timeCmax (int n, int m, Dane dane[])
     return Cmax[m-1];
 }
 
+// Wolny algorytm sortowania
 void sortQueue (int n, int m, Dane *dane)
 {
     Dane obliczenia[n];
@@ -80,6 +86,7 @@ void sortQueue (int n, int m, Dane *dane)
     przerzuc(0, n, wynik, dane);
 }
 
+// Liczenie czasu dla QNEH
 void timeCmaxLeftToRight (int last, int m, Dane dane[], int **Cmax)
 {
     Cmax[0][0] = dane[0].stream[0];
@@ -94,6 +101,7 @@ void timeCmaxLeftToRight (int last, int m, Dane dane[], int **Cmax)
     }
 }
 
+// Liczenie czasu dla QNEH
 void timeCmaxRightToLeft (int last, int m, Dane dane[], int **Cmax)
 {
     --last;
@@ -109,6 +117,7 @@ void timeCmaxRightToLeft (int last, int m, Dane dane[], int **Cmax)
     }
 }
 
+// Szybkie obliczanie czasu wykonywania
 int qTimeCmax (int ind, int m, int ile, int dane[], int *Cmltr[], int *Cmrtl[])
 {
     int Cmax[m], Cm;
@@ -138,6 +147,7 @@ int qTimeCmax (int ind, int m, int ile, int dane[], int *Cmltr[], int *Cmrtl[])
     return Cm;
 }
 
+// Algorytm QNEH
 void qsortQueue (int n, int m, Dane *dane, int **CmLeftToRight, int **CmRightToLeft)
 {
     Dane obliczenia[n];
