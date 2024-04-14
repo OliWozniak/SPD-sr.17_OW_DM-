@@ -367,6 +367,8 @@ int schragePodzialTabHeap(int n, Dane dane[]) {
 
 int main()
 {
+    clock_t start = clock();
+    clock_t end = clock();
     int odp[9][2];
     odp[0][0] = 221;   odp[0][1] = 283;
     odp[1][0] = 3026;  odp[1][1] = 3109;
@@ -394,19 +396,37 @@ int main()
             dane[i].id = i+1;
             dane_input >> dane[i].r >> dane[i].p >> dane[i].q;
         }
+        double elapsed[6];
 
+        start = clock();
         spnh = schragePodzialNotHeap(n, dane);
+        end = clock();  elapsed[0] = double(end - start)/CLOCKS_PER_SEC;
+
+        start = clock();
         spsh = schragePodzialSTLHeap(n, dane);
+        end = clock();  elapsed[1] = double(end - start)/CLOCKS_PER_SEC;
+
+        start = clock();
         spth = schragePodzialTabHeap(n, dane);
+        end = clock();  elapsed[2] = double(end - start)/CLOCKS_PER_SEC;
+
+        start = clock();
         snh = schrageNotHeap(n, dane);
+        end = clock();  elapsed[3] = double(end - start)/CLOCKS_PER_SEC;
+
+        start = clock();
         ssh = schrageSTLHeap(n, dane);
+        end = clock();  elapsed[4] = double(end - start)/CLOCKS_PER_SEC;
+
+        start = clock();
         sth = schrageTabHeap(n, dane);
+        end = clock();  elapsed[5] = double(end - start)/CLOCKS_PER_SEC;
 
         cout << "Dane nr." << j << endl;
-        cout << "         NotHeap STLHeap TabHeap Odpowedz Poprawnosc" << endl;
-        cout << "Podzial:" << setw(8) << spnh
-                           << setw(8) << spsh
-                           << setw(8) << spth
+        cout << "         NotHeap     Czas STLHeap     Czas TabHeap     Czas Odpowedz Poprawnosc" << endl;
+        cout << "Podzial:" << setw(8) << spnh << setw(9) << elapsed[0] 
+                           << setw(8) << spsh << setw(9) << elapsed[1] 
+                           << setw(8) << spth << setw(9) << elapsed[2] 
                            << setw(9) << odp[j][0];
         if (spnh == odp[j][0] && spsh == odp[j][0] && spth == odp[j][0]){
             cout << setw(11) << "true";
@@ -414,9 +434,9 @@ int main()
             cout << setw(11) << "false";
         }
         cout << endl;
-        cout << "Schrage:" << setw(8) << snh
-                           << setw(8) << ssh
-                           << setw(8) << sth
+        cout << "Schrage:" << setw(8) << snh << setw(9) << elapsed[3] 
+                           << setw(8) << ssh << setw(9) << elapsed[4] 
+                           << setw(8) << sth << setw(9) << elapsed[5] 
                            << setw(9) << odp[j][1];
         if (snh == odp[j][1] && ssh == odp[j][1] && sth == odp[j][1]){
             cout << setw(11) << "true";
