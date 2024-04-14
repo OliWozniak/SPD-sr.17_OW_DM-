@@ -30,6 +30,7 @@ void sortR (int n, Dane* dane, int* NieUszereg)
 
 int schrageNotHeap (int n, Dane* dane)
 {
+    cout << "Liczenie na tablicy:\n";
     int Gotow[n], NieUszereg[n], Kolejnosc[n];
     int nieUszereg = n, gotow = 0, pom = 0;
     int time = 0, Cmax = 0;
@@ -59,6 +60,7 @@ int schrageNotHeap (int n, Dane* dane)
         if (gotow != 0){
             Kolejnosc[pom] = Gotow[gotow-1];
             time += dane[Kolejnosc[pom]].p;
+            cout << dane[Kolejnosc[pom]].id << " ";
             Cmax = max(Cmax, time + dane[Kolejnosc[pom]].q);
             gotow--;
             pom++;
@@ -69,11 +71,13 @@ int schrageNotHeap (int n, Dane* dane)
             time = dane[NieUszereg[nieUszereg-1]].r;
         }
     }
+    cout<<endl << endl;
     return Cmax;
 }
 
 int schragePodzialNotHeap (int n, Dane* dane)
 {
+    cout<< "Liczenie podział na tablicy:\n";
     int Gotow[n], NieUszereg[n], Kolejnosc[n];
     int nieUszereg = n, gotow = 0;
     int time = 0, Cmax = 0;
@@ -135,6 +139,7 @@ int schragePodzialNotHeap (int n, Dane* dane)
             Kolejnosc[poz] -= ile_zrob;
 
             if (Kolejnosc[poz] == 0){
+                cout << dane[poz].id << " ";
                 Cmax = max(Cmax, time + dane[poz].q);
                 poz = MAXX;
             }
@@ -145,6 +150,7 @@ int schragePodzialNotHeap (int n, Dane* dane)
             time = dane[NieUszereg[nieUszereg-1]].r;
         }
     }
+    cout<<endl << endl;
     return Cmax;
 }
 
@@ -161,6 +167,7 @@ struct CompareQ {
 };
 
 int schrageSTLHeap(int n, Dane dane[]) {
+    cout << "Liczenie na kopcu STL:\n";
     vector<Dane> Gotow;
     vector<Dane> NieUszereg;
     for (int i=0; i<n; i++){
@@ -183,15 +190,18 @@ int schrageSTLHeap(int n, Dane dane[]) {
             Dane current_job = Gotow.back();
             Gotow.pop_back();
             time += current_job.p;
+            cout << current_job.id << " ";
             Cmax = max(Cmax, time + current_job.q);
         } else {
             time = NieUszereg.front().r;
         }
     }
+    cout<<endl << endl;
     return Cmax;
 }
 
 int schragePodzialSTLHeap(int n, Dane dane[]) {
+    cout << "Liczenie podział na kopcu STL:\n";
     vector<Dane> NieUszereg;
     vector<Dane> Gotow;
     for (int i=0; i<n; i++){
@@ -225,12 +235,13 @@ int schragePodzialSTLHeap(int n, Dane dane[]) {
             Gotow.pop_back();
             current_job = job;
             time += job.p;
+            cout << job.id << " ";
             Cmax = max(Cmax, time + job.q);
         } else {
             time = NieUszereg.front().r;
         }
     }
-
+    cout<<endl << endl;;
     return Cmax;
 }
 
@@ -301,6 +312,7 @@ Dane pop_Heap (Dane heap[], int& heapSize, char ch) {
 }
 
 int schrageTabHeap(int n, Dane dane[]) {
+    cout << "Liczenie na kopcu:\n";
     Dane Gotow[n], NieUszereg[n];
     int gotow = 0, nieUszereg = 0;
 
@@ -319,15 +331,18 @@ int schrageTabHeap(int n, Dane dane[]) {
         if (gotow != 0) {
             Dane current_job = pop_Heap(Gotow, gotow, 'q');
             time += current_job.p;
+            cout << current_job.id << " ";
             Cmax = max(Cmax, time + current_job.q);
         } else {
             time = NieUszereg[0].r;
         }
     }
+    cout<<endl << endl;
     return Cmax;
 }
 
 int schragePodzialTabHeap(int n, Dane dane[]) {
+    cout << "Liczenie podział na kopcu:\n";
     Dane Gotow[n], NieUszereg[n];
     int gotow = 0, nieUszereg = 0;
 
@@ -356,12 +371,13 @@ int schragePodzialTabHeap(int n, Dane dane[]) {
             Dane job = pop_Heap(Gotow, gotow, 'q');
             current_job = job;
             time += job.p;
+            cout << job.id << " ";
             Cmax = max(Cmax, time + job.q);
         } else {
             time = NieUszereg[0].r;
         }
     }
-
+    cout<<endl << endl;
     return Cmax;
 }
 
