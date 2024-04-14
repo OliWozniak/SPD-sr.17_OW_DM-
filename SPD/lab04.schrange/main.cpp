@@ -229,17 +229,41 @@ int schragePodzialSTL(int n, vector<Dane>& dane) {
 int main()
 {
     int n;
+    clock_t start = clock();
+    clock_t end = clock();
+    double elapsed;
+
     cin >> n;
-    //Dane dane[n];
-    vector <Dane> dane(n);
+    Dane dane[n];
+    //vector <Dane> dane(n);
     for (int i=0; i<n; i++){
         dane[i].id = i+1;
         cin >> dane[i].r >> dane[i].p >> dane[i].q;
     }
-    /*cout << "Podzial: " << schragePodzial(n, dane) << endl;
-	cout << "Schrage: " << schrage(n, dane) << endl;*/
+    start = clock();
+    cout << "Podzial: " << schragePodzial(n, dane) << endl;
+    end = clock();
+    elapsed = double(end - start)/CLOCKS_PER_SEC;
+    cout << "Czas pracy: " << elapsed << endl;
 
-	cout << "Podzial: " << schragePodzialSTL(n, dane) << endl;
+    start = clock();
+	cout << "Schrage: " << schrage(n, dane) << endl;
+    end = clock();
+    elapsed = double(end - start)/CLOCKS_PER_SEC;
+    cout << "Czas pracy: " << elapsed << endl;
+
+	/*
+    start = clock();
+    cout << "Podzial: " << schragePodzialSTL(n, dane) << endl;
+    end = clock();
+    elapsed = double(end - start)/CLOCKS_PER_SEC;
+    cout << "Czas pracy: " << elapsed << endl;
+
+    start = clock();
 	cout << "Schrage: " << schrageSTL(n, dane) << endl;
+    end = clock();
+    elapsed = double(end - start)/CLOCKS_PER_SEC;
+    cout << "Czas pracy: " << elapsed << endl;
+    */
     return 0;
 }
