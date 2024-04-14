@@ -378,13 +378,14 @@ int main()
     odp[7][0] = 3820;  odp[7][1] = 3862;
     odp[8][0] = 3633;  odp[8][1] = 3645;
 
-    string plik, nazwa = "dane", roz = ".txt";
+    string plik, nazwa = "./data/data00", roz = ".txt";
     char p;
     int n;
     int spnh, spsh, spth, snh, ssh, sth;
     for (int j=0; j<9; j++){
         p = j+48;
         plik = nazwa + p + roz;
+        cout << plik << endl;
         ifstream dane_input(plik);
 
         dane_input >> n;
