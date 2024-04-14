@@ -147,3 +147,47 @@ int main()
 	cout << "Schrage: " << schrage(n, dane) << endl;
     return 0;
 }
+
+// Comparator for sorting based on r value
+struct CompareR {
+    bool operator()(const Dane& a, const Dane& b) {
+        return a.r > b.r; // Sorting in descending order of r
+    }
+};
+
+// Comparator for sorting Gotow based on q value
+struct CompareQ {
+    bool operator()(const Dane& a, const Dane& b) {
+        return a.q < b.q; // Sorting in ascending order of q
+    }
+};
+
+int schrage(int n, vector<Dane>& dane) {
+    // Define heap for Gotow using priority_queue
+    priority_queue<Dane, vector<Dane>, CompareQ> Gotow;
+    // Define heap for NieUszereg using priority_queue
+    priority_queue<Dane, vector<Dane>, CompareR> NieUszereg;
+
+    int time = 0, Cmax = 0;
+
+    for (int i = 0; i < n; i++) {
+        NieUszereg.push(dane[i]);
+    }
+
+    while (!NieUszereg.empty() || !Gotow.empty()) {
+        if (!Gotow.empty()) {
+            Dane job = Gotow.top();
+            Gotow.pop();
+            time += job.p;
+            Cmax = max(Cmax, time + job.q);
+        } else {
+            time = NieUszereg.top().r;
+        }
+
+        while (!NieUszereg.empty() && NieUszereg.top().r <= time) {
+            Gotow.push(NieUszereg.top());
+            NieUszereg.pop();
+        }
+    }
+    return Cmax;
+}
