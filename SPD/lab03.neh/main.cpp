@@ -330,10 +330,10 @@ int main()
                 dane_input >> dane[i].stream[j];
             }
         }
-
+        clock_t start = clock();
         SumTimeFoTask(n, m, dane);
         sortTime(n, dane);
-        clock_t start = clock();
+        
 
         qsortQueue(n, m, dane, CmLeftToRight, CmRightToLeft);
         //sortQueue(n, m, dane);
