@@ -1,9 +1,13 @@
 #include <iostream>
-#include <time.h>
 #include <stdlib.h>
 #include <vector>
 #include <algorithm>
+#include <fstream>
+#include <iomanip>
+
 using namespace std;
+
+const int MAX_SIZE = 50;
 
 class Dane{
   public:
@@ -24,7 +28,7 @@ void sortR (int n, Dane* dane, int* NieUszereg)
     }
 }
 
-int schrage (int n, Dane* dane)
+int schrageNotHeap (int n, Dane* dane)
 {
     int Gotow[n], NieUszereg[n], Kolejnosc[n];
     int nieUszereg = n, gotow = 0, pom = 0;
@@ -68,7 +72,7 @@ int schrage (int n, Dane* dane)
     return Cmax;
 }
 
-int schragePodzial (int n, Dane* dane)
+int schragePodzialNotHeap (int n, Dane* dane)
 {
     int Gotow[n], NieUszereg[n], Kolejnosc[n];
     int nieUszereg = n, gotow = 0;
@@ -144,39 +148,40 @@ int schragePodzial (int n, Dane* dane)
     return Cmax;
 }
 
-// Comparator for sorting based on r value
 struct CompareR {
     bool operator()(const Dane& a, const Dane& b) {
-        return a.r > b.r; // Sorting in descending order of r
+        return a.r > b.r;
     }
 };
 
-// Comparator for sorting based on q value
 struct CompareQ {
     bool operator()(const Dane& a, const Dane& b) {
-        return a.q < b.q; // Sorting in ascending order of q
+        return a.q < b.q;
     }
 };
 
-int schrageSTL(int n, vector<Dane>& dane) {
-    vector<Dane> Gotow; // Vector to store jobs sorted by q
-    vector<Dane> NieUszereg = dane; // Copying dane to NieUszereg
-    make_heap(NieUszereg.begin(), NieUszereg.end(), CompareR()); // Creating max-heap based on r
+int schrageSTLHeap(int n, Dane dane[]) {
+    vector<Dane> Gotow;
+    vector<Dane> NieUszereg;
+    for (int i=0; i<n; i++){
+        NieUszereg.push_back(dane[i]);
+    }
+    make_heap(NieUszereg.begin(), NieUszereg.end(), CompareR());
 
     int time = 0, Cmax = 0;
 
     while (!Gotow.empty() || !NieUszereg.empty()) {
         while (!NieUszereg.empty() && NieUszereg.front().r <= time) {
-            Gotow.push_back(NieUszereg.front()); // Adding job to Gotow
-            push_heap(Gotow.begin(), Gotow.end(), CompareQ()); // Re-arranging Gotow as max-heap based on q
-            pop_heap(NieUszereg.begin(), NieUszereg.end(), CompareR()); // Extracting max element from NieUszereg
-            NieUszereg.pop_back(); // Discarding max element
+            Gotow.push_back(NieUszereg.front());
+            push_heap(Gotow.begin(), Gotow.end(), CompareQ());
+            pop_heap(NieUszereg.begin(), NieUszereg.end(), CompareR());
+            NieUszereg.pop_back();
         }
 
         if (!Gotow.empty()) {
-            pop_heap(Gotow.begin(), Gotow.end(), CompareQ()); // Extracting max element from Gotow
-            Dane current_job = Gotow.back(); // Fetching max element based on q
-            Gotow.pop_back(); // Discarding max element
+            pop_heap(Gotow.begin(), Gotow.end(), CompareQ());
+            Dane current_job = Gotow.back();
+            Gotow.pop_back();
             time += current_job.p;
             Cmax = max(Cmax, time + current_job.q);
         } else {
@@ -186,14 +191,17 @@ int schrageSTL(int n, vector<Dane>& dane) {
     return Cmax;
 }
 
-int schragePodzialSTL(int n, vector<Dane>& dane) {
-    vector<Dane> NieUszereg = dane; // Copying dane to NieUszereg
+int schragePodzialSTLHeap(int n, Dane dane[]) {
+    vector<Dane> NieUszereg;
     vector<Dane> Gotow;
+    for (int i=0; i<n; i++){
+        NieUszereg.push_back(dane[i]);
+    }
     make_heap(NieUszereg.begin(), NieUszereg.end(), CompareR());
 
     int time = 0, Cmax = 0;
     Dane current_job;
-    current_job.r = 9999999; // Initialize with maximum value
+    current_job.r = 9999999;
 
     while (!Gotow.empty() || !NieUszereg.empty()) {
         while (!NieUszereg.empty() && NieUszereg.front().r <= time) {
@@ -226,44 +234,197 @@ int schragePodzialSTL(int n, vector<Dane>& dane) {
     return Cmax;
 }
 
+void ShiftUp(Dane heap[], int index, char ch) {
+    while (index > 0 && ((ch == 'r' && heap[(index - 1) / 2].r > heap[index].r) ||
+                         (ch == 'q' && heap[(index - 1) / 2].q < heap[index].q))){
+        swap(heap[index], heap[(index - 1) / 2]);
+        index = (index - 1) / 2;
+    }
+}
+
+void ShiftDown(Dane heap[], int index, int heapSize, char ch) {
+    int leftChild, rightChild, largestChild;
+    while (true) {
+        leftChild = 2 * index + 1;
+        rightChild = 2 * index + 2;
+        largestChild = index;
+
+        if (leftChild < heapSize && ((ch == 'r' && heap[leftChild].r < heap[largestChild].r) ||
+                                     (ch == 'q' && heap[leftChild].q > heap[largestChild].q))){
+            largestChild = leftChild;
+        }
+        if (rightChild < heapSize && ((ch == 'r' && heap[rightChild].r < heap[largestChild].r) ||
+                                      (ch == 'q' && heap[rightChild].q > heap[largestChild].q))){
+            largestChild = rightChild;
+        }
+
+        if (largestChild == index) {
+            break;
+        }
+
+        swap(heap[index], heap[largestChild]);
+        index = largestChild;
+    }
+}
+
+void make_Heap (Dane heap[], int heapSize, char ch)
+{
+    for (int i=heapSize/2; i>0; i--){
+        ShiftDown(heap, i, heapSize, ch);
+    }
+}
+
+void push_Heap (Dane heap[], int& heapSize, Dane value, char ch) {
+    if (heapSize == MAX_SIZE) {
+        cerr << "Heap is full" << endl;
+        return;
+    }
+
+    heap[heapSize] = value;
+    ShiftUp(heap, heapSize, ch);
+    heapSize++;
+}
+
+Dane pop_Heap (Dane heap[], int& heapSize, char ch) {
+    if (heapSize == 0) {
+        cerr << "Heap is empty" << endl;
+        Dane emptyDane;
+        emptyDane.r = -1;
+        return emptyDane;
+    }
+
+    Dane maxValue = heap[0];
+    heap[0] = heap[heapSize - 1];
+    heapSize--;
+    ShiftDown(heap, 0, heapSize, ch);
+    return maxValue;
+}
+
+int schrageTabHeap(int n, Dane dane[]) {
+    Dane Gotow[n], NieUszereg[n];
+    int gotow = 0, nieUszereg = 0;
+
+    for (int i=0; i<n; i++){
+        push_Heap(NieUszereg, nieUszereg, dane[i], 'r');
+    }
+
+    int time = 0, Cmax = 0;
+
+    while (gotow != 0 || nieUszereg != 0) {
+        while (nieUszereg != 0 && NieUszereg[0].r <= time) {
+            push_Heap(Gotow, gotow, NieUszereg[0], 'q');
+            pop_Heap(NieUszereg, nieUszereg, 'r');
+        }
+
+        if (gotow != 0) {
+            Dane current_job = pop_Heap(Gotow, gotow, 'q');
+            time += current_job.p;
+            Cmax = max(Cmax, time + current_job.q);
+        } else {
+            time = NieUszereg[0].r;
+        }
+    }
+    return Cmax;
+}
+
+int schragePodzialTabHeap(int n, Dane dane[]) {
+    Dane Gotow[n], NieUszereg[n];
+    int gotow = 0, nieUszereg = 0;
+
+    for (int i=0; i<n; i++){
+        push_Heap(NieUszereg, nieUszereg, dane[i], 'r');
+    }
+
+    int time = 0, Cmax = 0;
+    Dane current_job;
+    current_job.r = 9999999;
+
+    while (gotow != 0 || nieUszereg != 0) {
+        while (nieUszereg != 0 && NieUszereg[0].r <= time) {
+            Dane job = pop_Heap(NieUszereg, nieUszereg, 'r');
+            push_Heap(Gotow, gotow, job, 'q');
+            if (job.q > current_job.q) {
+                current_job.p = time - job.r;
+                time = job.r;
+                if (current_job.p > 0){
+                    push_Heap(Gotow, gotow, current_job, 'q');
+                }
+            }
+        }
+
+        if (gotow != 0) {
+            Dane job = pop_Heap(Gotow, gotow, 'q');
+            current_job = job;
+            time += job.p;
+            Cmax = max(Cmax, time + job.q);
+        } else {
+            time = NieUszereg[0].r;
+        }
+    }
+
+    return Cmax;
+}
+
 int main()
 {
+    int odp[9][2];
+    odp[0][0] = 221;   odp[0][1] = 283;
+    odp[1][0] = 3026;  odp[1][1] = 3109;
+    odp[2][0] = 3654;  odp[2][1] = 3708;
+    odp[3][0] = 3309;  odp[3][1] = 3353;
+    odp[4][0] = 3172;  odp[4][1] = 3235;
+    odp[5][0] = 3618;  odp[5][1] = 3625;
+    odp[6][0] = 3439;  odp[6][1] = 3446;
+    odp[7][0] = 3820;  odp[7][1] = 3862;
+    odp[8][0] = 3633;  odp[8][1] = 3645;
+
+    string plik, nazwa = "dane", roz = ".txt";
+    char p;
     int n;
-    clock_t start = clock();
-    clock_t end = clock();
-    double elapsed;
+    int spnh, spsh, spth, snh, ssh, sth;
+    for (int j=0; j<9; j++){
+        p = j+48;
+        plik = nazwa + p + roz;
+        ifstream dane_input(plik);
 
-    cin >> n;
-    Dane dane[n];
-    //vector <Dane> dane(n);
-    for (int i=0; i<n; i++){
-        dane[i].id = i+1;
-        cin >> dane[i].r >> dane[i].p >> dane[i].q;
+        dane_input >> n;
+        Dane dane[n];
+        for (int i=0; i<n; i++){
+            dane[i].id = i+1;
+            dane_input >> dane[i].r >> dane[i].p >> dane[i].q;
+        }
+
+        spnh = schragePodzialNotHeap(n, dane);
+        spsh = schragePodzialSTLHeap(n, dane);
+        spth = schragePodzialTabHeap(n, dane);
+        snh = schrageNotHeap(n, dane);
+        ssh = schrageSTLHeap(n, dane);
+        sth = schrageTabHeap(n, dane);
+
+        cout << "Dane nr." << j << endl;
+        cout << "         NotHeap STLHeap TabHeap Odpowedz Poprawnosc" << endl;
+        cout << "Podzial:" << setw(8) << spnh
+                           << setw(8) << spsh
+                           << setw(8) << spth
+                           << setw(9) << odp[j][0];
+        if (spnh == odp[j][0] && spsh == odp[j][0] && spth == odp[j][0]){
+            cout << setw(11) << "true";
+        } else {
+            cout << setw(11) << "false";
+        }
+        cout << endl;
+        cout << "Schrage:" << setw(8) << snh
+                           << setw(8) << ssh
+                           << setw(8) << sth
+                           << setw(9) << odp[j][1];
+        if (snh == odp[j][1] && ssh == odp[j][1] && sth == odp[j][1]){
+            cout << setw(11) << "true";
+        } else {
+            cout << setw(11) << "false";
+        }
+        cout << endl << endl;
     }
-    start = clock();
-    cout << "Podzial: " << schragePodzial(n, dane) << endl;
-    end = clock();
-    elapsed = double(end - start)/CLOCKS_PER_SEC;
-    cout << "Czas pracy: " << elapsed << endl;
 
-    start = clock();
-	cout << "Schrage: " << schrage(n, dane) << endl;
-    end = clock();
-    elapsed = double(end - start)/CLOCKS_PER_SEC;
-    cout << "Czas pracy: " << elapsed << endl;
 
-	/*
-    start = clock();
-    cout << "Podzial: " << schragePodzialSTL(n, dane) << endl;
-    end = clock();
-    elapsed = double(end - start)/CLOCKS_PER_SEC;
-    cout << "Czas pracy: " << elapsed << endl;
-
-    start = clock();
-	cout << "Schrage: " << schrageSTL(n, dane) << endl;
-    end = clock();
-    elapsed = double(end - start)/CLOCKS_PER_SEC;
-    cout << "Czas pracy: " << elapsed << endl;
-    */
     return 0;
 }
