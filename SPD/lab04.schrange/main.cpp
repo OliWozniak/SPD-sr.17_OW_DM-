@@ -1,6 +1,8 @@
 #include <iostream>
 #include <time.h>
 #include <stdlib.h>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 class Dane{
@@ -31,6 +33,7 @@ int schrage (int n, Dane* dane)
     for (int i=0; i<n; i++){
         NieUszereg[i] = i;
     }
+
     sortR(n, dane, NieUszereg);
 
     while (pom != n){
@@ -78,7 +81,14 @@ int schragePodzial (int n, Dane* dane)
         NieUszereg[i] = i;
         Kolejnosc[i] = dane[i].p;
     }
-    sortR(n, dane, NieUszereg);
+
+    for (int i=0; i<n-1; i++){
+        for (int j=0; j<n-i-1; j++){
+            if (dane[NieUszereg[j]].r < dane[NieUszereg[j+1]].r){
+                swap(NieUszereg[j], NieUszereg[j+1]);
+            }
+        }
+    }
 
     while (nieUszereg != 0 || gotow != 0){
         if (nieUszereg != 0){
@@ -134,20 +144,6 @@ int schragePodzial (int n, Dane* dane)
     return Cmax;
 }
 
-int main()
-{
-    int n;
-    cin >> n;
-    Dane dane[n];
-    for (int i=0; i<n; i++){
-        dane[i].id = i+1;
-        cin >> dane[i].r >> dane[i].p >> dane[i].q;
-    }
-    cout << "Podzial: " << schragePodzial(n, dane) << endl;
-	cout << "Schrage: " << schrage(n, dane) << endl;
-    return 0;
-}
-
 // Comparator for sorting based on r value
 struct CompareR {
     bool operator()(const Dane& a, const Dane& b) {
@@ -155,39 +151,95 @@ struct CompareR {
     }
 };
 
-// Comparator for sorting Gotow based on q value
+// Comparator for sorting based on q value
 struct CompareQ {
     bool operator()(const Dane& a, const Dane& b) {
         return a.q < b.q; // Sorting in ascending order of q
     }
 };
 
-int schrage(int n, vector<Dane>& dane) {
-    // Define heap for Gotow using priority_queue
-    priority_queue<Dane, vector<Dane>, CompareQ> Gotow;
-    // Define heap for NieUszereg using priority_queue
-    priority_queue<Dane, vector<Dane>, CompareR> NieUszereg;
+int schrageSTL(int n, vector<Dane>& dane) {
+    vector<Dane> Gotow; // Vector to store jobs sorted by q
+    vector<Dane> NieUszereg = dane; // Copying dane to NieUszereg
+    make_heap(NieUszereg.begin(), NieUszereg.end(), CompareR()); // Creating max-heap based on r
 
     int time = 0, Cmax = 0;
 
-    for (int i = 0; i < n; i++) {
-        NieUszereg.push(dane[i]);
-    }
-
-    while (!NieUszereg.empty() || !Gotow.empty()) {
-        if (!Gotow.empty()) {
-            Dane job = Gotow.top();
-            Gotow.pop();
-            time += job.p;
-            Cmax = max(Cmax, time + job.q);
-        } else {
-            time = NieUszereg.top().r;
+    while (!Gotow.empty() || !NieUszereg.empty()) {
+        while (!NieUszereg.empty() && NieUszereg.front().r <= time) {
+            Gotow.push_back(NieUszereg.front()); // Adding job to Gotow
+            push_heap(Gotow.begin(), Gotow.end(), CompareQ()); // Re-arranging Gotow as max-heap based on q
+            pop_heap(NieUszereg.begin(), NieUszereg.end(), CompareR()); // Extracting max element from NieUszereg
+            NieUszereg.pop_back(); // Discarding max element
         }
 
-        while (!NieUszereg.empty() && NieUszereg.top().r <= time) {
-            Gotow.push(NieUszereg.top());
-            NieUszereg.pop();
+        if (!Gotow.empty()) {
+            pop_heap(Gotow.begin(), Gotow.end(), CompareQ()); // Extracting max element from Gotow
+            Dane current_job = Gotow.back(); // Fetching max element based on q
+            Gotow.pop_back(); // Discarding max element
+            time += current_job.p;
+            Cmax = max(Cmax, time + current_job.q);
+        } else {
+            time = NieUszereg.front().r;
         }
     }
     return Cmax;
+}
+
+int schragePodzialSTL(int n, vector<Dane>& dane) {
+    vector<Dane> NieUszereg = dane; // Copying dane to NieUszereg
+    vector<Dane> Gotow;
+    make_heap(NieUszereg.begin(), NieUszereg.end(), CompareR());
+
+    int time = 0, Cmax = 0;
+    Dane current_job;
+    current_job.r = 9999999; // Initialize with maximum value
+
+    while (!Gotow.empty() || !NieUszereg.empty()) {
+        while (!NieUszereg.empty() && NieUszereg.front().r <= time) {
+            pop_heap(NieUszereg.begin(), NieUszereg.end(), CompareR());
+            Dane job = NieUszereg.back();
+            NieUszereg.pop_back();
+            Gotow.push_back(job);
+            push_heap(Gotow.begin(), Gotow.end(), CompareQ());
+            if (job.q > current_job.q) {
+                current_job.p = time - job.r;
+                time = job.r;
+                if (current_job.p > 0)
+                    Gotow.push_back(current_job);
+                push_heap(Gotow.begin(), Gotow.end(), CompareQ());
+            }
+        }
+
+        if (!Gotow.empty()) {
+            pop_heap(Gotow.begin(), Gotow.end(), CompareQ());
+            Dane job = Gotow.back();
+            Gotow.pop_back();
+            current_job = job;
+            time += job.p;
+            Cmax = max(Cmax, time + job.q);
+        } else {
+            time = NieUszereg.front().r;
+        }
+    }
+
+    return Cmax;
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+    //Dane dane[n];
+    vector <Dane> dane(n);
+    for (int i=0; i<n; i++){
+        dane[i].id = i+1;
+        cin >> dane[i].r >> dane[i].p >> dane[i].q;
+    }
+    /*cout << "Podzial: " << schragePodzial(n, dane) << endl;
+	cout << "Schrage: " << schrage(n, dane) << endl;*/
+
+	cout << "Podzial: " << schragePodzialSTL(n, dane) << endl;
+	cout << "Schrage: " << schrageSTL(n, dane) << endl;
+    return 0;
 }
