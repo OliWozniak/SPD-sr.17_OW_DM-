@@ -196,7 +196,7 @@ void carlier (int n, Dane* dane, int* Kolejnosc, int& UB)
     carlier(n, dane, Kolejnosc, UB);
     dane[Id].r = pomR;
     dane[Id].q = Q;
-    carlier(n, dane, Kolejnosc, UB);
+    //carlier(n, dane, Kolejnosc, UB);
     dane[Id].q = pomQ;
 }
 

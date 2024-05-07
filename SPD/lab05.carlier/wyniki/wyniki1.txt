@@ -1,0 +1,47 @@
+Dane nr.0
+         Obliczenia     Odpowedz        Poprawnosc      Czas wykonania
+Podzial:        221           221              true              2e-06
+Schrage:       283            283              true              2e-06
+Carlier:       228            228              true              4e-06
+
+Dane nr.1
+         Obliczenia     Odpowedz        Poprawnosc      Czas wykonania
+Podzial:       3026          3026              true            3.9e-05
+Schrage:      3109           3109              true            3.6e-05
+Carlier:      3026           3026              true           0.000992
+
+Dane nr.2
+         Obliczenia     Odpowedz        Poprawnosc      Czas wykonania
+Podzial:       3654          3654              true            2.9e-05
+Schrage:      3708           3708              true            2.9e-05
+Carlier:      3665           3665              true           0.000875
+
+Dane nr.3
+         Obliczenia     Odpowedz        Poprawnosc      Czas wykonania
+Podzial:       3309          3309              true              2e-05
+Schrage:      3353           3353              true              2e-05
+Carlier:      3318           3309             false            0.00095
+
+Dane nr.4
+         Obliczenia     Odpowedz        Poprawnosc      Czas wykonania
+Podzial:       3172          3172              true            3.1e-05
+Schrage:      3235           3235              true              3e-05
+Carlier:      3191           3191              true           0.000755
+
+Dane nr.5
+         Obliczenia     Odpowedz        Poprawnosc      Czas wykonania
+Podzial:       3618          3618              true            3.1e-05
+Schrage:      3625           3625              true            3.1e-05
+Carlier:      3625           3618             false            8.6e-05
+
+Dane nr.7
+         Obliczenia     Odpowedz        Poprawnosc      Czas wykonania
+Podzial:       3820          3820              true            2.9e-05
+Schrage:      3862           3862              true              3e-05
+Carlier:      3821           3821              true           0.000564
+
+Dane nr.8
+         Obliczenia     Odpowedz        Poprawnosc      Czas wykonania
+Podzial:       3633          3633              true            3.6e-05
+Schrage:      3645           3645              true            3.9e-05
+Carlier:      3634           3634              true           0.000806
