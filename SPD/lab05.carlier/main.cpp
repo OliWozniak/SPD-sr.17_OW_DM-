@@ -202,6 +202,11 @@ void carlier (int n, Dane* dane, int* Kolejnosc, int& UB)
 
 int main()
 {
+    clock_t start = clock();
+    clock_t end = clock();
+    double elapsedP;
+    double elapsedS;
+    double elapsedC;
     int odp[9][3];
     odp[0][0] = 221;   odp[0][1] = 283;   odp[0][2] = 228;
     odp[1][0] = 3026;  odp[1][1] = 3109;  odp[1][2] = 3026;
@@ -213,7 +218,7 @@ int main()
     odp[7][0] = 3820;  odp[7][1] = 3862;  odp[7][2] = 3821;
     odp[8][0] = 3633;  odp[8][1] = 3645;  odp[8][2] = 3634;
 
-    string plik, nazwa = "dane", roz = ".txt";
+    string plik, nazwa = "dane/dane", roz = ".txt";
     char p;
     int n;
     int schr, schrPod;
@@ -231,37 +236,48 @@ int main()
             dane[i].id = i+1;
             dane_input >> dane[i].r >> dane[i].p >> dane[i].q;
         }
+
+        start = clock();
         int UB = schrage(n, dane, Kolejnosc);
+        end = clock();  elapsedS = double(end - start)/CLOCKS_PER_SEC;
         schr = UB;
+
+        start = clock();
         schrPod = schragePodzial(n, dane);
+        end = clock();  elapsedP = double(end - start)/CLOCKS_PER_SEC;
+
+        start = clock();
         carlier(n, dane, Kolejnosc, UB);
+        end = clock();  elapsedC = double(end - start)/CLOCKS_PER_SEC;
 
         cout << "Dane nr." << j << endl;
-        cout << "         Obliczenia Odpowedz Poprawnosc" << endl;
-        cout << "Podzial:" << setw(10) << schrPod
-                           << setw(9)  << odp[j][0];
+        cout << "         Obliczenia\tOdpowedz\tPoprawnosc\tCzas wykonania" << endl;
+        cout << "Podzial:" << setw(11) << schrPod << "\t" 
+                           << setw(9)  << odp[j][0] << "\t";
         if (schrPod == odp[j][0]){
             cout << setw(11) << "true";
         } else {
             cout << setw(11) << "false";
         }
-        cout << endl;
-        cout << "Schrage:" << setw(10) << schr
-                           << setw(9)  << odp[j][1];
+        cout << "\t" << setw(14) << elapsedP << endl;
+
+        cout << "Schrage:" << setw(10) << schr << "\t"
+                           << setw(9)  << odp[j][1] << "\t";
         if (schr == odp[j][1]){
             cout << setw(11) << "true";
         } else {
             cout << setw(11) << "false";
         }
-        cout << endl;
-        cout << "Carlier:" << setw(10) << UB
-                           << setw(9)  << odp[j][2];
+        cout << "\t" << setw(14) << elapsedS << endl;
+
+        cout << "Carlier:" << setw(10) << UB << "\t"
+                           << setw(9)  << odp[j][2] << "\t";
         if (UB == odp[j][2]){
             cout << setw(11) << "true";
         } else {
             cout << setw(11) << "false";
         }
-        cout << endl << endl;
+        cout << "\t" << setw(14) << elapsedC << endl << endl;
     }
     return 0;
 }
