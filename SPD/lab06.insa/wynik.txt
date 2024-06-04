@@ -1,0 +1,317 @@
+./dane/data.001
+Cmax:   1961
+Czas pracy algorytmu:   0.361809
+
+./dane/data.002
+Cmax:   1759
+Czas pracy algorytmu:   0.408463
+
+./dane/data.003
+Cmax:   1732
+Czas pracy algorytmu:   0.302598
+
+./dane/data.004
+Cmax:   1727
+Czas pracy algorytmu:   0.219839
+
+./dane/data.005
+Cmax:   1910
+Czas pracy algorytmu:   0.29057
+
+./dane/data.006
+Cmax:   1992
+Czas pracy algorytmu:   0.099702
+
+./dane/data.007
+Cmax:   2002
+Czas pracy algorytmu:   0.219878
+
+./dane/data.008
+Cmax:   1903
+Czas pracy algorytmu:   0.217053
+
+./dane/data.009
+Cmax:   1962
+Czas pracy algorytmu:   0.228367
+
+./dane/data.010
+Cmax:   1556
+Czas pracy algorytmu:   0.208279
+
+./dane/data.011
+Cmax:   2413
+Czas pracy algorytmu:   0.717209
+
+./dane/data.012
+Cmax:   2156
+Czas pracy algorytmu:   0.485758
+
+./dane/data.013
+Cmax:   1978
+Czas pracy algorytmu:   0.350275
+
+./dane/data.014
+Cmax:   1847
+Czas pracy algorytmu:   0.763843
+
+./dane/data.015
+Cmax:   2014
+Czas pracy algorytmu:   0.954662
+
+./dane/data.016
+Cmax:   2014
+Czas pracy algorytmu:   0.627054
+
+./dane/data.017
+Cmax:   2225
+Czas pracy algorytmu:   0.834336
+
+./dane/data.018
+Cmax:   2295
+Czas pracy algorytmu:   0.481935
+
+./dane/data.019
+Cmax:   2118
+Czas pracy algorytmu:   0.527108
+
+./dane/data.020
+Cmax:   2338
+Czas pracy algorytmu:   0.747176
+
+./dane/data.021
+Cmax:   2438
+Czas pracy algorytmu:   2.2617
+
+./dane/data.022
+Cmax:   2642
+Czas pracy algorytmu:   0.48626
+
+./dane/data.023
+Cmax:   2500
+Czas pracy algorytmu:   2.30585
+
+./dane/data.024
+Cmax:   2593
+Czas pracy algorytmu:   2.12511
+
+./dane/data.025
+Cmax:   2579
+Czas pracy algorytmu:   1.78988
+
+./dane/data.026
+Cmax:   2717
+Czas pracy algorytmu:   1.25497
+
+./dane/data.027
+Cmax:   2874
+Czas pracy algorytmu:   1.00894
+
+./dane/data.028
+Cmax:   2492
+Czas pracy algorytmu:   2.92505
+
+./dane/data.029
+Cmax:   2847
+Czas pracy algorytmu:   2.60197
+
+./dane/data.030
+Cmax:   2413
+Czas pracy algorytmu:   2.06282
+
+./dane/data.031
+Cmax:   2718
+Czas pracy algorytmu:   3.02351
+
+./dane/data.032
+Cmax:   2637
+Czas pracy algorytmu:   3.36363
+
+./dane/data.033
+Cmax:   2942
+Czas pracy algorytmu:   2.66091
+
+./dane/data.034
+Cmax:   3010
+Czas pracy algorytmu:   0.759042
+
+./dane/data.035
+Cmax:   2826
+Czas pracy algorytmu:   2.45274
+
+./dane/data.036
+Cmax:   2657
+Czas pracy algorytmu:   0.912862
+
+./dane/data.037
+Cmax:   2783
+Czas pracy algorytmu:   0.899883
+
+./dane/data.038
+Cmax:   2719
+Czas pracy algorytmu:   1.06886
+
+./dane/data.039
+Cmax:   2478
+Czas pracy algorytmu:   3.08262
+
+./dane/data.040
+Cmax:   2768
+Czas pracy algorytmu:   1.63909
+
+./dane/data.041
+Cmax:   3303
+Czas pracy algorytmu:   5.60297
+
+./dane/data.042
+Cmax:   3315
+Czas pracy algorytmu:   4.35714
+
+./dane/data.043
+Cmax:   3143
+Czas pracy algorytmu:   3.52222
+
+./dane/data.044
+Cmax:   3214
+Czas pracy algorytmu:   3.88579
+
+./dane/data.045
+Cmax:   3263
+Czas pracy algorytmu:   8.00483
+
+./dane/data.046
+Cmax:   3327
+Czas pracy algorytmu:   1.65404
+
+./dane/data.047
+Cmax:   3472
+Czas pracy algorytmu:   3.30806
+
+./dane/data.048
+Cmax:   3458
+Czas pracy algorytmu:   7.99217
+
+./dane/data.049
+Cmax:   3537
+Czas pracy algorytmu:   5.40301
+
+./dane/data.050
+Cmax:   3095
+Czas pracy algorytmu:   5.11695
+
+./dane/data.051
+Cmax:   3749
+Czas pracy algorytmu:   14.0072
+
+./dane/data.052
+Cmax:   3535
+Czas pracy algorytmu:   6.66267
+
+./dane/data.053
+Cmax:   3946
+Czas pracy algorytmu:   8.23641
+
+./dane/data.054
+Cmax:   3840
+Czas pracy algorytmu:   8.41065
+
+./dane/data.055
+Cmax:   3704
+Czas pracy algorytmu:   3.8583
+
+./dane/data.056
+Cmax:   3787
+Czas pracy algorytmu:   11.2235
+
+./dane/data.057
+Cmax:   3899
+Czas pracy algorytmu:   11.1877
+
+./dane/data.058
+Cmax:   4013
+Czas pracy algorytmu:   6.54277
+
+./dane/data.059
+Cmax:   3632
+Czas pracy algorytmu:   17.3441
+
+./dane/data.060
+Cmax:   3871
+Czas pracy algorytmu:   5.27512
+
+./dane/data.061
+Cmax:   4742
+Czas pracy algorytmu:   31.4536
+
+./dane/data.062
+Cmax:   4861
+Czas pracy algorytmu:   41.8354
+
+./dane/data.063
+Cmax:   4430
+Czas pracy algorytmu:   27.2186
+
+./dane/data.064
+Cmax:   4322
+Czas pracy algorytmu:   24.124
+
+./dane/data.065
+Cmax:   4054
+Czas pracy algorytmu:   24.5455
+
+./dane/data.066
+Cmax:   4311
+Czas pracy algorytmu:   11.6516
+
+./dane/data.067
+Cmax:   4201
+Czas pracy algorytmu:   33.6095
+
+./dane/data.068
+Cmax:   4330
+Czas pracy algorytmu:   28.2631
+
+./dane/data.069
+Cmax:   4658
+Czas pracy algorytmu:   42.7622
+
+./dane/data.070
+Cmax:   4733
+Czas pracy algorytmu:   22.7943
+
+./dane/data.071
+Cmax:   7254
+Czas pracy algorytmu:   244.989
+
+./dane/data.072
+Cmax:   7282
+Czas pracy algorytmu:   332.26
+
+./dane/data.073
+Cmax:   7992
+Czas pracy algorytmu:   434.651
+
+./dane/data.074
+Cmax:   7488
+Czas pracy algorytmu:   196.09
+
+./dane/data.075
+ Cmax:  7705
+Czas pracy algorytmu:   148.708
+
+./dane/data.076
+Cmax:   7569
+Czas pracy algorytmu:   397.228
+
+./dane/data.077
+Cmax:   7166
+Czas pracy algorytmu:   283.597
+
+./dane/data.078
+Cmax:   7338
+Czas pracy algorytmu:   206.04
+
+./dane/data.079
+Cmax:   7328
+Czas pracy algorytmu:   358.759
+
+Czas całkowity: 3079.91
